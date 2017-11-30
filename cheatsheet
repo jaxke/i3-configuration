@@ -1,0 +1,29 @@
+mod-d 	top bar shortcuts
+mod-shift-q 	close
+mod-enter 	terminal
+mod-v 	vertical tiling
+mod-arrow / jkl;	 switch tile
+mod-s	stack	mod-e	revert
+mod-w	tab mode
+mod-r	resize		arrow	modify
+mod-shift-arrow		swap
+mod-shift-number	move to workspace
+mod-number		go to workspace
+
+mod-shift-e 	exit session
+
+mod-shift-r 	restart i3(=apply modifications)
+
+[i3lock]	lock		(ENTER PASSWORD)
+[i3-config-wizard]
+.i3/config
+
+
+
+bindsym $mod+shift+key exec something			execute command on key combo
+
+
+[feg --bg-scale wallpaper.jpg]	set wallpaper
+
+https://fortawesome.github.io/Font-Awesome/cheatsheet/		font awesome cheat sheet
+
