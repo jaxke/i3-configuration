@@ -41,7 +41,7 @@ font pango:DejaVu 10
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec xfce4-terminal
+bindsym $mod+Return exec terminator
 
 # kill focused window
 bindsym $mod+q kill
@@ -145,14 +145,12 @@ bindsym $mod+Shift+0 move container to workspace $workspace10
 
 assign [class="Firefox"]   workspace $workspace2
 
-exec --no-startup-id i3-msg 'workspace $workspace2; exec firefox-nightly; workspace $workspace2'
-exec --no-startup-id i3-msg 'workspace $workspace3; exec xfce4-terminal -x htop'
-exec --no-startup-id i3-msg 'workspace $workspace3; exec xfce4-terminal -x glances'
-#exec --no-startup-id i3-msg 'workspace $workspace4; exec xfce4-terminal -e "ssh osmc@192.168.8.103"' 
-#exec --no-startup-id i3-msg 'workspace $workspace4; exec xfce4-terminal -e "ssh victor@192.168.8.107"'
-exec --no-startup-id i3-msg 'workspace $workspace1; exec xfce4-terminal'
-exec --no-startup-id i3-msg 'workspace $workspace10; exec xfce4-terminal -x sudo journalctl -p 3 -xb'
-exec --no-startup-id i3-msg 'workspace $workspace10; exec xfce4-terminal -x systemctl --failed'
+exec --no-startup-id i3-msg 'workspace $workspace2; exec firefox; workspace $workspace2'
+exec_always --no-startup-id i3-msg 'workspace $workspace3; exec terminator -x htop'
+exec --no-startup-id i3-msg 'workspace $workspace3; exec terminator -x glances'
+exec --no-startup-id i3-msg 'workspace $workspace1; exec terminator'
+exec --no-startup-id i3-msg 'workspace $workspace10; exec terminator -x sudo journalctl -p 3 -xb'
+exec --no-startup-id i3-msg 'workspace $workspace10; exec terminator -x systemctl --failed'
 
 
 # reload the configuration file
@@ -285,45 +283,38 @@ bindsym $mod+shift+period mode "$mode_system"
 #PROPERTIES FOR i3-gaps
 
 #in px
-gaps inner 5
+gaps inner 0
 gaps outer 0
 
 #Disable gaps if only one container in workspace
 smart_gaps on
 smart_borders on
 
-
 #CUSTOM PROPERTIES
 for_window [class=".*"] title_format "<b>%title</b>"
-
 
 #KEYBINDINGS
 
 bindsym $mod+period exec i3lock-fancy
-bindsym $mod+c exec firefox-nightly
+bindsym $mod+c exec firefox
 bindsym $mod+shift+c exec firefox -private
-bindsym $mod+shift+m exec pcmanfm
-#bindsym Print exec scrot 'scrot-%Y-%m-%d_$wx$h.png' -e 'mv $f ~/Pictures/screenshots/'
-bindsym Print exec /bin/gnome-screenshot-no-sound
+bindsym Print exec /bin/gnome-screenshot
 bindsym $mod+shift+Return exec xfce4-terminal --drop-down
-#bindsym $mod+z exec rofi -show run -lines 3 -eh 2 -width 100 -padding 100 -bw 0 -bc "$bg-color" -bg "$bg-color" -lbg "$bg-color" -hlfg "#9575cd" -font "System San Francisco Display 18" 
-#bindsym $mod+z exec rofi -show run -lines 3 -eh 2 -padding 100 -opacity "0" -bw 1 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "Ubuntu 18" -width -50
-#bindsym $mod+comma exec nm-applet
-#bindsym $mod+shift+comma exec killall nm-applet
 bindsym $mod+comma exec sudo wicd-gtk
 bindsym $mod+Shift+q focus parent,kill
 
+# Disable ctrl-q for Firefox. VERY annoying keybinding because ctrl-w is for close
+# tab...
+bindsym ctrl+q exec echo ""
+
 #AUTOLAUNCH
-
-exec_always feh --bg-scale /home/victor/Pictures/blurred-rainbow-817.jpg
-
+exec_always feh --bg-scale /home/victor/Downloads/vayrynen.jpg
 exec compton -f #Tranparent Rofi, -f transistion effects
-
 exec xautolock -time 15 -locker "/bin/i3lock-fancy" &
 
-#exec wicd-client --tray
-
-#exec --no-startup-id conky -c ~/.conkyrc
-
-#workspace_bar no
-exec_always --no-startup-id /home/victor/.config/polybar/launch.sh
+# OS commands
+# xmodmap load config file(caps = esc)
+exec setxkbmap -option caps:swapescape
+#[[ -f ~/.xmodmap ]] && xmodmap ~/.xmodmap
+# Allow port 80(Apache)
+exec sudo iptables -A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
